@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import mysql
 from PIL import Image
 import streamlit as st
 import pandas as pd
