@@ -1,6 +1,35 @@
+import base64
 from datetime import datetime
 import streamlit as st
+from PIL.Image import Image
 
+
+def set_bg_hack(main_bg):
+    '''
+    A function to unpack an image from root folder and set as bg.
+
+    Returns
+    -------
+    The background.
+    '''
+    # set bg name
+    main_bg_ext = "png"
+
+    st.markdown(
+        f"""
+         <style>
+         .stApp {{
+             background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()});
+             background-size: cover
+         }}
+         </style>
+         """,
+        unsafe_allow_html=True
+    )
+set_bg_hack('C:\\Users\\mohammed_khalil\\Downloads\\background.png')
+
+image = Image.open("C:\\Users\\mohammed_khalil\\Downloads\\OIP.jpg")
+st.image(image)
 st.title('Late Sheet Name place holder')
 options = ('Customer visit', 'Hospital visit', 'Vendor visit', 'Business trip', 'Personal excuse', 'Reporting late')
 selection = st.selectbox("Dear NA u have been late for today's attendance for '00:00', please choose a reason", options)
