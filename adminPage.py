@@ -29,9 +29,9 @@ def set_bg_hack(main_bg):
          """,
         unsafe_allow_html=True
     )
-set_bg_hack('C:\\Users\\mohammed_khalil\\Downloads\\background.png')
+set_bg_hack('background.png')
 
-image = Image.open("C:\\Users\\mohammed_khalil\\Downloads\\OIP.jpg")
+image = Image.open("OIP.jpg")
 st.image(image)
 st.title('admin page name place holder')
 radio_selection = st.sidebar.selectbox('choose an option:', ('print reports', 'give permission','give privilege'))
