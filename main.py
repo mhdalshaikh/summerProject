@@ -1,7 +1,7 @@
 import base64
 from datetime import datetime
 import streamlit as st
-from Image import Image
+from PIL import Image
 
 
 def set_bg_hack(main_bg):
