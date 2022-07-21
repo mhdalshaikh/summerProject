@@ -1,0 +1,21 @@
+db code:
+conn = pyodbc.connect('Driver={SQL Server};'
+                      'Server=LAPTOP-PUSE1ERN;'
+                      'Database=testDB;'
+                      'Trusted_Connection=yes;')
+
+cursor = conn.cursor()
+cursor.execute('CREATE table attendance(ID varchar(255),Name varchar(255),Date varchar(255),total_hours varchar(255),'
+               'total_office_hours varchar(255),Customer1_visit varchar(255),customer1_name varchar(255),'
+               'customer1_country varchar(255),customer1_location varchar(255),Customer2_visit varchar(255),customer2_name varchar(255),'
+               'customer2_country varchar(255),customer2_location varchar(255),Customer3_visit varchar(255),customer3_name varchar(255),'
+               'customer3_country varchar(255),customer3_location varchar(255),hospital_visit varchar(255),'
+               'hospital_location varchar(255), '
+               'vendor1_visit varchar(255),vendor1_name varchar(255),vendor2_visit varchar(255),vendor2_name varchar(255),Business_trip_country varchar('
+               '255), '
+               'trip_location varchar(255),date_of_trip varchar(255),date_of_return varchar(255),personal_excuse '
+               'varchar(255),reporting_late '
+               'varchar(255))')
+#record the ID, name and the date of the entries
+dates=f"{datetime.now():%d-%m-%Y}"
+cursor.execute("INSERT into attendance(ID,Name,Date) VALUES(?,?,?)",('111','Khalil',dates))
