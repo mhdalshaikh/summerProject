@@ -8,6 +8,7 @@ import pyodbc
 import streamlit as st
 from PIL import Image
 
+
 @st.experimental_singleton
 def init_connection():
     return pyodbc.connect(
@@ -21,11 +22,13 @@ def init_connection():
         + st.secrets["password"]
     )
 
+
 @st.experimental_memo(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
         return cur.fetchall()
+
 
 # this function is called when saving response of a customer visit
 def insert_client(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3, client_name_3,
@@ -158,7 +161,7 @@ if selection == 'Customer visit':
             mysum3 = str(calculate_time(start_time_3, end_time_3))
         except:
             mysum3 = '00:00:00'
-        # calling inertion function
+        # calling insertion function
         insert_client(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3,
                       client_name_3, loc3, country3)
         st.success('response added')
@@ -254,7 +257,7 @@ elif selection == 'Business trip':
         try:
             insert_business_trip(country, location, date_from, date_to)
         except:
-            insert_business_trip(country,location, '', '')
+            insert_business_trip(country, location, '', '')
         st.success('response added')
     save_exit_button = clm4.button('save/exit')
     if save_exit_button:
@@ -262,7 +265,7 @@ elif selection == 'Business trip':
         try:
             insert_business_trip(country, location, date_from, date_to)
         except:
-            insert_business_trip(country,location, '', '')
+            insert_business_trip(country, location, '', '')
         finish = True
 
 elif selection == 'Personal excuse':
@@ -298,23 +301,18 @@ if finish is True:  # if save/exit button was pressed the code comes here
 
     conn = init_connection()
     cur = conn.cursor()
-    dates = str(f"{datetime.now():%d-%m-%Y}")
-    cur.execute("INSERT into attendance(ID,name,date,customer1_visit,customer1_name,customer1_country,customer1_location,"
-                   "customer2_visit,customer2_name,customer2_country,customer2_location,customer3_visit,"
-                   "customer3_name,customer3_country,customer3_location,hospital_visit,hospital_location,"
-                   "vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,"
-                   "date_of_trip,date_of_return,personal_excuse,reporting_late) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
-                   "?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                   ('111', 'Khalil', dates, array[5], array[6], array[7], array[8], array[9],
-                    array[10], array[11], array[12], array[13], array[14], array[15],
-                    array[16], array[17], array[18], array[19], array[20], array[21],
-                    array[22], array[23], array[24], array[25], array[26], array[27], array[28]))
+    dates = str(f"{datetime.now():%Y-%m-%d}")
+    cur.execute(
+        "INSERT into attendance(ID,name,date,customer1_visit,customer1_name,customer1_country,customer1_location,"
+        "customer2_visit,customer2_name,customer2_country,customer2_location,customer3_visit,"
+        "customer3_name,customer3_country,customer3_location,hospital_visit,hospital_location,"
+        "vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,"
+        "date_of_trip,date_of_return,personal_excuse,reporting_late) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
+        "?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        ('111', 'Khalil', dates, array[5], array[6], array[7], array[8], array[9],
+         array[10], array[11], array[12], array[13], array[14], array[15],
+         array[16], array[17], array[18], array[19], array[20], array[21],
+         array[22], array[23], array[24], array[25], array[26], array[27], array[28]))
     cur.commit()
     st.success('response saved, you can now exit the form')
     st.stop()
-
-
-
-
-
-

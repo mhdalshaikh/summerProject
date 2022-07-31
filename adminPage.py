@@ -1,9 +1,31 @@
 import csv
 from datetime import datetime
 
+import pyodbc
 from PIL import Image
 import streamlit as st
 import base64
+
+
+@st.experimental_singleton
+def init_connection():
+    return pyodbc.connect(
+        "DRIVER={ODBC Driver 17 for SQL Server};SERVER="
+        + st.secrets["server"]
+        + ";DATABASE="
+        + st.secrets["database"]
+        + ";UID="
+        + st.secrets["username"]
+        + ";PWD="
+        + st.secrets["password"]
+    )
+
+
+@st.experimental_memo(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
 
 
 def type_to_csv(array):
@@ -11,8 +33,6 @@ def type_to_csv(array):
         # using csv.writer method from CSV package
         write = csv.writer(f)
         write.writerow(array)
-
-
 
 
 def set_bg_hack(main_bg):
@@ -37,31 +57,52 @@ def set_bg_hack(main_bg):
          """,
         unsafe_allow_html=True
     )
+
+
 set_bg_hack('background.png')
 
 image = Image.open("OIP.jpg")
 st.image(image)
 st.title('admin page name place holder')
-radio_selection = st.sidebar.selectbox('choose an option:', ('print reports', 'give permission','give privilege'))
+radio_selection = st.sidebar.selectbox('choose an option:', ('print reports', 'give permission', 'give privilege'))
 if radio_selection == 'print reports':
     select_box_choice = st.selectbox('who to print for:', ('all', 'certain employee'))
+    headers = ('ID', 'name', 'date', 'customer1_visit',' customer1_name', 'customer1_country', 'customer1_location',
+               'customer2_visit','customer2_name','customer2_country','customer2_location','customer3_visit',
+               'customer3_name','customer3_country','customer3_location','hospital_visit','hospital_location',
+               'vendor1_visit','vendor1_name','vendor2_visit','vendor2_name','business_trip_country','trip_location',
+               'date_of_trip','date_of_return','personal_excuse','reporting_late')
     if select_box_choice == 'all':
         clm1, clm2 = st.columns(2)
         date_range = clm1.date_input('from')
         date_range2 = clm2.date_input('to')
-        clm1.button('download report')
+        download_button = clm1.button('download report')
+        if download_button:
+            st.write(date_range)
+            conn = init_connection()
+            cur = conn.cursor()
+            result = cur.execute('select * from attendance where date >= ? AND date <= ?', date_range, date_range2)
+            rows = result.fetchall()
+            with open('report.csv', 'a') as f:
+                # using csv.writer method from CSV package
+                dw = csv.DictWriter(f, delimiter=',',
+                                    fieldnames=headers)
+                dw.writeheader()
+                for row in rows:
+                    write = csv.writer(f)
+                    write.writerow(row)
     elif select_box_choice == 'certain employee':
-        clm1, clm2, clm3,clm4 = st.columns(4)
+        clm1, clm2, clm3, clm4 = st.columns(4)
         ID = clm1.text_input('enter employee ID:')
-        name=clm2.text_input(label="", value="asdasd", disabled=True)
+        name = clm2.text_input(label="", value="asdasd", disabled=True)
         date_from = clm3.date_input('from')
         date_to = clm4.date_input('to')
-        clm1.button('download report')
+        download_button = clm1.button('download report')
 
 elif radio_selection == 'give permission':
-    col1,col2=st.columns(2)
+    col1, col2 = st.columns(2)
     ID = col1.text_input('enter employee ID: ')
-    name=col2.text_input(label="",value="name of ID",disabled=True)
+    name = col2.text_input(label="", value="name of ID", disabled=True)
     options = ('Customer site', 'Medical excuse', 'Vacation')
     selection = st.selectbox("please choose a reason",
                              options)
@@ -73,30 +114,30 @@ elif radio_selection == 'give permission':
         country = clm2.text_input('country:', key=3)
         start_time = clm4.date_input('from:')
         end_time = clm5.date_input('to:')
-        save_add_button=clm4.button('save/add')
+        save_add_button = clm4.button('save/add')
         if save_add_button:
-            array=[ID,name,selection,client_name,loc,country,start_time,end_time]
+            array = [ID, name, selection, client_name, loc, country, start_time, end_time]
             type_to_csv(array)
             st.success('permission saved!')
         save_exit_button = clm5.button('save/exit')
         if save_exit_button:
-            array=[ID,name,selection,client_name,loc,country,start_time,end_time]
+            array = [ID, name, selection, client_name, loc, country, start_time, end_time]
             st.success('permission saved , you can exit the site')
             type_to_csv(array)
             st.stop()
     elif selection == 'Medical excuse':
         clm1, clm2, clm3 = st.columns(3)
-        hospital_name= clm1.text_input('Hospital name: ')
+        hospital_name = clm1.text_input('Hospital name: ')
         start_time = clm2.date_input('from:')
         end_time = clm3.date_input('to:')
-        save_add_button=clm2.button('save/add')
+        save_add_button = clm2.button('save/add')
         if save_add_button:
-            array=[ID,name,selection,hospital_name,start_time,end_time]
+            array = [ID, name, selection, hospital_name, start_time, end_time]
             type_to_csv(array)
             st.success('permission saved!')
         save_exit_button = clm3.button('save/exit')
         if save_exit_button:
-            array=[ID,name,selection,hospital_name,start_time,end_time]
+            array = [ID, name, selection, hospital_name, start_time, end_time]
             st.success('permission saved , you can exit the site')
             type_to_csv(array)
             st.stop()
@@ -104,14 +145,14 @@ elif radio_selection == 'give permission':
         clm1, clm2, clm3 = st.columns(3)
         start_time = clm2.date_input('from:')
         end_time = clm3.date_input('to:')
-        save_add_button=clm2.button('save/add')
+        save_add_button = clm2.button('save/add')
         if save_add_button:
-            array=[ID,name,selection,start_time,end_time]
+            array = [ID, name, selection, start_time, end_time]
             st.success('permission saved , you can exit the site')
             type_to_csv(array)
         save_exit_button = clm3.button('save/exit')
         if save_exit_button:
-            array=[ID,name,selection,start_time,end_time]
+            array = [ID, name, selection, start_time, end_time]
             st.success('permission saved , you can exit the site')
             type_to_csv(array)
             st.stop()
