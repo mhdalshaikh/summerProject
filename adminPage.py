@@ -59,7 +59,7 @@ def set_bg_hack(main_bg):
     )
 
 
-set_bg_hack('background.png')
+#set_bg_hack('background.png')
 
 image = Image.open("OIP.jpg")
 st.image(image)
@@ -74,14 +74,13 @@ if radio_selection == 'print reports':
                'date_of_trip','date_of_return','personal_excuse','reporting_late')
     if select_box_choice == 'all':
         clm1, clm2 = st.columns(2)
-        date_range = clm1.date_input('from')
-        date_range2 = clm2.date_input('to')
+        date_from = clm1.date_input('from')
+        date_to = clm2.date_input('to')
         download_button = clm1.button('download report')
         if download_button:
-            st.write(date_range)
             conn = init_connection()
             cur = conn.cursor()
-            result = cur.execute('select * from attendance where date >= ? AND date <= ?', date_range, date_range2)
+            result = cur.execute('select * from attendance where date >= ? AND date <= ?', date_from, date_to)
             rows = result.fetchall()
             with open('report.csv', 'a') as f:
                 # using csv.writer method from CSV package
@@ -98,6 +97,19 @@ if radio_selection == 'print reports':
         date_from = clm3.date_input('from')
         date_to = clm4.date_input('to')
         download_button = clm1.button('download report')
+        if download_button:
+            conn = init_connection()
+            cur = conn.cursor()
+            result = cur.execute('select * from attendance where date >= ? AND date <= ? AND ID = ?', date_from, date_to,ID)
+            rows = result.fetchall()
+            with open('report.csv', 'a') as f:
+                # using csv.writer method from CSV package
+                dw = csv.DictWriter(f, delimiter=',',
+                                    fieldnames=headers)
+                dw.writeheader()
+                for row in rows:
+                    write = csv.writer(f)
+                    write.writerow(row)
 
 elif radio_selection == 'give permission':
     col1, col2 = st.columns(2)

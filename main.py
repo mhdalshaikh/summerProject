@@ -109,7 +109,7 @@ def set_bg_hack(main_bg):
     )
 
 
-set_bg_hack('background.png')
+#set_bg_hack('background.png')
 
 image = Image.open("OIP.jpg")
 st.image(image)
@@ -309,7 +309,7 @@ if finish is True:  # if save/exit button was pressed the code comes here
         "vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,"
         "date_of_trip,date_of_return,personal_excuse,reporting_late) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
         "?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        ('111', 'Khalil', dates, array[5], array[6], array[7], array[8], array[9],
+        ('118', 'Khalil', dates, array[5], array[6], array[7], array[8], array[9],
          array[10], array[11], array[12], array[13], array[14], array[15],
          array[16], array[17], array[18], array[19], array[20], array[21],
          array[22], array[23], array[24], array[25], array[26], array[27], array[28]))
