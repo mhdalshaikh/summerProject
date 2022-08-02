@@ -1,6 +1,4 @@
 import csv
-from datetime import datetime
-
 import pyodbc
 from PIL import Image
 import streamlit as st
@@ -63,7 +61,7 @@ def set_bg_hack(main_bg):
 
 image = Image.open("OIP.jpg")
 st.image(image)
-st.title('admin page name place holder')
+st.title('Welcome to the admin page ')
 radio_selection = st.sidebar.selectbox('choose an option:', ('print reports', 'give permission', 'give privilege'))
 if radio_selection == 'print reports':
     select_box_choice = st.selectbox('who to print for:', ('all', 'certain employee'))

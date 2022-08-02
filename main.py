@@ -1,5 +1,4 @@
 import base64
-import csv
 from datetime import datetime
 import datetime as dt
 from datetime import date
@@ -119,11 +118,12 @@ array = initialize_array()
 finish = False
 
 # setting up the form page
-st.title('Late Sheet Name place holder')
+st.title('specify all late reasons below')
 options = (
     '----', 'Customer visit', 'Hospital visit', 'Vendor visit', 'Business trip', 'Personal excuse', 'Reporting late')
 selection = st.selectbox("Dear NA u have been late for today's attendance for '00:00', please choose a reason",
                          options)
+
 # these if statements are for setting up the form selection box
 if selection == 'Customer visit':
     clm1, clm2, clm3, clm4, clm5 = st.columns(5)
