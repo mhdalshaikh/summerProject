@@ -1,0 +1,10 @@
+ID,name,date,customer1_visit, customer1_name,customer1_country,customer1_location,customer2_visit,customer2_name,customer2_country,customer2_location,customer3_visit,customer3_name,customer3_country,customer3_location,hospital_visit,hospital_location,vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,date_of_trip,date_of_return,personal_excuse,reporting_late
+117,Khalil,2022-08-01,456,,-,-,-,-,-,-,-,-,-,-,-,-,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+117,Khalil,2022-08-01,456,,0:00:00,nonono,,,00:00:00,,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+118,Khalil,2022-08-01,,456,0:00:00,nonono,,,0:00:00,gigiug,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+118,Khalil,2022-08-01,,456,0:00:00,nonono,,,0:00:00,gigiug,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,0:00:00
+ID,name,date,customer1_visit, customer1_name,customer1_country,customer1_location,customer2_visit,customer2_name,customer2_country,customer2_location,customer3_visit,customer3_name,customer3_country,customer3_location,hospital_visit,hospital_location,vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,date_of_trip,date_of_return,personal_excuse,reporting_late
+117,Khalil,2022-08-01,456,,-,-,-,-,-,-,-,-,-,-,-,-,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+117,Khalil,2022-08-01,456,,0:00:00,nonono,,,00:00:00,,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+118,Khalil,2022-08-01,,456,0:00:00,nonono,,,0:00:00,gigiug,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,-
+118,Khalil,2022-08-01,,456,0:00:00,nonono,,,0:00:00,gigiug,,,00:00:00,,,,-,-,0:00:00,hi ,00:00:00,,hiuhi,,2022-07-31,2022-07-31,-,0:00:00

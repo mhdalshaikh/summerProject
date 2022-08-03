@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\report 2022-08-01 2022-08-03.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\report 2022-08-03 2022-08-03.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\report.csv">
           <value>
             <Attribute>
