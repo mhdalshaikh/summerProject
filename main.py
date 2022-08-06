@@ -65,8 +65,8 @@ def insert_business_trip(country, location, date_from, date_to):
 @st.cache(allow_output_mutation=True)
 def initialize_array():
     array = ['-'] * 29
-    array[0] = "123"
-    array[1] = "khalil"
+    array[0] = ""
+    array[1] = ""
     array[2] = date.today()
     return array
 
