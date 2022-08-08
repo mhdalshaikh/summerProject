@@ -8,6 +8,20 @@ import streamlit as st
 from google.oauth2 import service_account
 from gsheetsdb import connect
 
+def fetch_data(date_from,date_to,rows):
+    with open('report ' + str(date_from) + ' ' + str(date_to) + '.csv', 'a') as f:
+        # using csv.writer method from CSV package
+        dw = csv.DictWriter(f, delimiter=',',
+                            fieldnames=headers)
+        dw.writeheader()
+        for row in rows:
+            write = csv.writer(f)
+            write.writerow(row)
+
+
+
+
+
 # Create a connection object.
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
@@ -69,9 +83,9 @@ if radio_selection == 'print reports':
         clm1, clm2 = st.columns(2)
         date_from = clm1.date_input('from')
         date_to = clm2.date_input('to')
-        text_contents='asdasdasd'
-        download_button=clm1.download_button('Download CSV', text_contents)
-        
+        sheet_url = st.secrets["private_gsheets_url"]
+        rows = run_query(f'SELECT * FROM "{sheet_url}"')
+        download_button=clm1.download_button('Download CSV', data=rows,file_name='report '+str(date_from)+' '+str(date_to)+'.csv')
     elif select_box_choice == 'certain employee':
         clm1, clm2, clm3, clm4 = st.columns(4)
         ID = clm1.text_input('enter employee ID:')
