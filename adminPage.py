@@ -71,18 +71,7 @@ if radio_selection == 'print reports':
         date_to = clm2.date_input('to')
         text_contents='asdasdasd'
         download_button=clm1.download_button('Download CSV', text_contents)
-        if download_button:
-            sheet_url = st.secrets["private_gsheets_url"]
-            rows = run_query(f'SELECT * FROM "{sheet_url}"')
-            with open('report '+str(date_from)+' '+str(date_to)+'.csv', 'a') as f:
-                # using csv.writer method from CSV package
-                dw = csv.DictWriter(f, delimiter=',',
-                                    fieldnames=headers)
-                dw.writeheader()
-                for row in rows:
-                    write = csv.writer(f)
-                    write.writerow(row)
-            st.success('report downloaded!')
+        
     elif select_box_choice == 'certain employee':
         clm1, clm2, clm3, clm4 = st.columns(4)
         ID = clm1.text_input('enter employee ID:')
