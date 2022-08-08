@@ -13,14 +13,18 @@ import streamlit as st
 from google.oauth2 import service_account
 from gsheetsdb import connect
 
-# Create a connection object.
-credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"],
-    scopes=[
-        "https://www.googleapis.com/auth/spreadsheets",
-    ],
-)
-conn = connect(credentials=credentials)
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+scopes = ['https://www.googleapis.com/auth/spreadsheets','https://www.googleapis.com/auth/drive']
+
+creds = ServiceAccountCredentials.from_json_keyfile_name("C:\\Users\\mohammed_khalil\\Desktop\\secret.json", scopes=scopes)
+
+file = gspread.authorize(creds)
+workbook = file.open("Timesheet")
+sheet = workbook.sheet1
+
+sheet.update('A2:C3',[['Khalil',123,'late']])
 
 # Perform SQL query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
