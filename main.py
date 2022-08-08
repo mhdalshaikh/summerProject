@@ -59,7 +59,7 @@ def insert_business_trip(country, location, date_from, date_to):
 
 
 # this function is called to initialize the responses array and @st.cache insures its called only once
-@st.cache(allow_output_mutation=True,persist=True)
+@st.experimental_singleton()
 def initialize_array():
     array = ['-'] * 29
     array[0] = ""
@@ -116,7 +116,7 @@ def set_bg_hack(main_bg):
 
 image = Image.open("OIP.jpg")
 st.image(image)
-array = initialize_array()
+array=initialize_array()
 # a flag to be used later for finishing execution
 finish = False
 
@@ -303,5 +303,6 @@ elif selection == 'Reporting late':
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
     sheet.append_row(array)
+    st.experimental_singleton.clear()
     st.success('response saved, you can now exit the form')
     st.stop()
