@@ -197,7 +197,7 @@ if selection == 'Customer visit':
         # calling insertion function
         insert_client_new(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3,
                       client_name_3, loc3, country3)
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm5.button('save/exit')
     if save_exit_button:
@@ -230,7 +230,7 @@ elif selection == 'Hospital visit':
         mysum = str(calculate_time(start_time1, end_time1))
         new_array[17] = mysum
         new_array[18] = location
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -263,7 +263,7 @@ elif selection == 'Vendor visit':
             mysum2 = '00:00:00'
         # calling insertion function
         insert_vendor_new(mysum, vendor_name_1, mysum2, vendor_name_2)
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -294,7 +294,7 @@ elif selection == 'Business trip':
             insert_business_trip_new(country, location, date_from, date_to)
         except:
             insert_business_trip_new(country, location, '', '')
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm4.button('save/exit')
     if save_exit_button:
@@ -313,7 +313,7 @@ elif selection == 'Personal excuse':
     if save_add_button:
         mysum = str(calculate_time(start_time1, end_time1))
         new_array[27] = mysum
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -329,7 +329,7 @@ elif selection == 'Reporting late':
     if save_add_button:
         mysum = str(calculate_time(start_time1, end_time1))
         new_array[28] = mysum
-        array=new_array
+        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
