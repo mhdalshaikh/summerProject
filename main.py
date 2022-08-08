@@ -23,9 +23,6 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("secret.json", scopes=s
 file = gspread.authorize(creds)
 workbook = file.open("Timesheet")
 sheet = workbook.sheet1
-
-
-
 # Perform SQL query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 @st.cache(ttl=600)
@@ -119,8 +116,6 @@ def set_bg_hack(main_bg):
 image = Image.open("OIP.jpg")
 st.image(image)
 array = initialize_array()
-sheet.update('A2:C3', array[2])
-sheet.append_row(array)
 
 # a flag to be used later for finishing execution
 finish = False
@@ -307,6 +302,6 @@ elif selection == 'Reporting late':
         finish = True
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
-    sheet.update('A2:C3', [array])
+    sheet.append_row(array)
     st.success('response saved, you can now exit the form')
     st.stop()
