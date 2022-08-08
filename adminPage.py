@@ -69,8 +69,8 @@ if radio_selection == 'print reports':
         clm1, clm2 = st.columns(2)
         date_from = clm1.date_input('from')
         date_to = clm2.date_input('to')
-        rows=['n','dfg']
-        download_button = clm1.download_button('Download CSV', rows, 'text/csv')
+        with open('myfile.csv') as f:
+            clm1.download_button('Download CSV', f)  # Defaults to 'text/plain'
         if download_button:
             sheet_url = st.secrets["private_gsheets_url"]
             rows = run_query(f'SELECT * FROM "{sheet_url}"')
