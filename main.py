@@ -25,36 +25,6 @@ workbook = file.open("Timesheet")
 sheet = workbook.sheet1
 
 sheet_url = st.secrets["private_gsheets_url"]
-def insert_client_new(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3, client_name_3,
-                  loc3, country3):
-    new_array[5] = mysum
-    new_array[6] = client_name_1
-    new_array[7] = country1
-    new_array[8] = loc1
-    new_array[9] = mysum2
-    new_array[10] = client_name_2
-    new_array[11] = country2
-    new_array[12] = loc2
-    new_array[13] = mysum3
-    new_array[14] = client_name_3
-    new_array[15] = country3
-    new_array[16] = loc3
-
-
-# this function is called when saving vendor visits
-def insert_vendor_new(mysum, vendor_name_1, mysum2, vendor_name_2):
-    new_array[19] = mysum
-    new_array[20] = vendor_name_1
-    new_array[21] = mysum2
-    new_array[22] = vendor_name_2
-
-
-# this function saves business trips responses
-def insert_business_trip_new(country, location, date_from, date_to):
-    new_array[23] = country
-    new_array[24] = location
-    new_array[25] = date_from
-    new_array[26] = date_to
 # this function is called when saving response of a customer visit
 def insert_client(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3, client_name_3,
                   loc3, country3):
@@ -89,6 +59,7 @@ def insert_business_trip(country, location, date_from, date_to):
 
 
 # this function is called to initialize the responses array and @st.cache insures its called only once
+@st.cache(allow_output_mutation=True,persist=True)
 def initialize_array():
     array = ['-'] * 29
     array[0] = ""
@@ -97,12 +68,12 @@ def initialize_array():
     return array
 
 @st.cache(allow_output_mutation=True)
-def reinitialize_array():
+def reinitialize_array(array):
     new_array = ['-'] * 29
     new_array[0] = ""
     new_array[1] = ""
     new_array[2] = str(date.today())
-    return new_array
+    return array
 
 
 # this function is used to calculate the time submitted in the form
@@ -145,8 +116,11 @@ def set_bg_hack(main_bg):
 
 image = Image.open("OIP.jpg")
 st.image(image)
-array=initialize_array()
-new_array=reinitialize_array()
+reset=False
+if reset is True:
+    array = initialize_array(reset=False)
+else:
+    array = initialize_array(reset=True)
 # a flag to be used later for finishing execution
 finish = False
 
@@ -195,9 +169,8 @@ if selection == 'Customer visit':
         except:
             mysum3 = '00:00:00'
         # calling insertion function
-        insert_client_new(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3,
+        insert_client(mysum, client_name_1, loc1, country1, mysum2, client_name_2, loc2, country2, mysum3,
                       client_name_3, loc3, country3)
-        array=new_array.copy()
         st.success('response added')
     save_exit_button = clm5.button('save/exit')
     if save_exit_button:
@@ -228,9 +201,8 @@ elif selection == 'Hospital visit':
     save_add_button = clm2.button('save/add')
     if save_add_button:
         mysum = str(calculate_time(start_time1, end_time1))
-        new_array[17] = mysum
-        new_array[18] = location
-        array=new_array.copy()
+        array[17] = mysum
+        array[18] = location
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -262,8 +234,7 @@ elif selection == 'Vendor visit':
         except:
             mysum2 = '00:00:00'
         # calling insertion function
-        insert_vendor_new(mysum, vendor_name_1, mysum2, vendor_name_2)
-        array=new_array.copy()
+        insert_vendor(mysum, vendor_name_1, mysum2, vendor_name_2)
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -291,10 +262,9 @@ elif selection == 'Business trip':
     if save_add_button:
         # calling insertion function
         try:
-            insert_business_trip_new(country, location, date_from, date_to)
+            insert_business_trip(country, location, date_from, date_to)
         except:
-            insert_business_trip_new(country, location, '', '')
-        array=new_array.copy()
+            insert_business_trip(country, location, '', '')
         st.success('response added')
     save_exit_button = clm4.button('save/exit')
     if save_exit_button:
@@ -312,8 +282,7 @@ elif selection == 'Personal excuse':
     save_add_button = clm2.button('save/add')
     if save_add_button:
         mysum = str(calculate_time(start_time1, end_time1))
-        new_array[27] = mysum
-        array=new_array.copy()
+        array[27] = mysum
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -328,8 +297,7 @@ elif selection == 'Reporting late':
     save_add_button = clm2.button('save/add')
     if save_add_button:
         mysum = str(calculate_time(start_time1, end_time1))
-        new_array[28] = mysum
-        array=new_array.copy()
+        array[28] = mysum
         st.success('response added')
     save_exit_button = clm3.button('save/exit')
     if save_exit_button:
@@ -339,5 +307,7 @@ elif selection == 'Reporting late':
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
     sheet.append_row(array)
+    new_array=initialize_array(reset)
+    reset=True
     st.success('response saved, you can now exit the form')
     st.stop()
