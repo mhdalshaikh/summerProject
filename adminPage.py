@@ -89,8 +89,7 @@ if radio_selection == 'print reports':
         import io
         download_button=clm1.button('downlaod reprot')
         if download_button:
-            vals = ['A', 'B', 'C']
-            df = pd.DataFrame(vals, columns=["ID",'name','date','total hours','total office hours','customer1_visit','customer1_name','customer1_country','customer1_location','customer2_visit','customer2_name','customer2_country','customer2_location','customer3_visit','customer3_name','customer3_country','customer3_location','hospital_visit','hospital_location','vendor1_visit','vendor1_name','vendor2_visit','vendor2_name','business_trip_country','trip_location','date_of_trip','date_of_return','personal_excuse',"reporting_late"])
+            df = pd.DataFrame(columns=["ID",'name','date','total hours','total office hours','customer1_visit','customer1_name','customer1_country','customer1_location','customer2_visit','customer2_name','customer2_country','customer2_location','customer3_visit','customer3_name','customer3_country','customer3_location','hospital_visit','hospital_location','vendor1_visit','vendor1_name','vendor2_visit','vendor2_name','business_trip_country','trip_location','date_of_trip','date_of_return','personal_excuse',"reporting_late"])
             towrite = io.BytesIO()
             downloaded_file = df.to_excel(towrite, encoding='utf-8', index=False, header=True)
             towrite.seek(0)  # reset pointer
