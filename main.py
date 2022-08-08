@@ -301,7 +301,7 @@ elif selection == 'Reporting late':
         finish = True
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
-    run_query(
+    conn.execute(
         f'INSERT into"{sheet_url}""{array}"')
     st.success('response saved, you can now exit the form')
     st.stop()
