@@ -116,9 +116,11 @@ def set_bg_hack(main_bg):
 
 image = Image.open("OIP.jpg")
 st.image(image)
-reset=''
-array = initialize_array(reset)
-
+reset=False
+if reset is True:
+    array = initialize_array(reset=False)
+else:
+    array = initialize_array(reset=True)
 # a flag to be used later for finishing execution
 finish = False
 
