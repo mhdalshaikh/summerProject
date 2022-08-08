@@ -1,2 +1,2 @@
 # requirements.txt
-pyodbc==4.0.34
+gsheetsdb==0.1.13.1
