@@ -307,6 +307,7 @@ elif selection == 'Reporting late':
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
     sheet.append_row(array)
+    new_array=initialize_array(reset)
     reset=True
     st.success('response saved, you can now exit the form')
     st.stop()
