@@ -24,7 +24,7 @@ file = gspread.authorize(creds)
 workbook = file.open("Timesheet")
 sheet = workbook.sheet1
 
-sheet.update('A2:C3',[['Khalil',123,'late']])
+
 
 # Perform SQL query on the Google Sheet.
 # Uses st.cache to only rerun when the query changes or after 10 min.
@@ -74,7 +74,7 @@ def initialize_array():
     array = ['-'] * 29
     array[0] = ""
     array[1] = ""
-    array[2] = date.today()
+    array[2] = str(date.today())
     return array
 
 
@@ -119,6 +119,8 @@ def set_bg_hack(main_bg):
 image = Image.open("OIP.jpg")
 st.image(image)
 array = initialize_array()
+sheet.update('A2:C3', array[2])
+sheet.append_row(array)
 
 # a flag to be used later for finishing execution
 finish = False
@@ -305,7 +307,6 @@ elif selection == 'Reporting late':
         finish = True
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
-    conn.execute(
-        f'INSERT into"{sheet_url}""{array}"')
+    sheet.update('A2:C3', [array])
     st.success('response saved, you can now exit the form')
     st.stop()
