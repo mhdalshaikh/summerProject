@@ -21,6 +21,13 @@ def type_to_csv(array):
         write.writerow(array)
 
 
+@st.cache(ttl=600)
+def run_query(query):
+    rows = conn.execute(query, headers=1)
+    rows = rows.fetchall()
+    return rows
+
+
 def set_bg_hack(main_bg):
     '''
     A function to unpack an image from root folder and set as bg.
