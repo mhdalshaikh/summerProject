@@ -84,8 +84,21 @@ if radio_selection == 'print reports':
         date_from = clm1.date_input('from')
         date_to = clm2.date_input('to')
         sheet_url = st.secrets["private_gsheets_url"]
-        rows = run_query(f'SELECT * FROM "{sheet_url}"')
-        download_button=clm1.download_button('Download CSV', data=rows[0],file_name='report '+str(date_from)+' '+str(date_to)+'.csv')
+        import pandas as pd
+        import base64
+        import io
+        download_button=clm1.button('downlaod reprot')
+        if download_button:
+            vals = ['A', 'B', 'C']
+            df = pd.DataFrame(vals, columns=["Title"])
+            df
+
+            towrite = io.BytesIO()
+            downloaded_file = df.to_excel(towrite, encoding='utf-8', index=False, header=True)
+            towrite.seek(0)  # reset pointer
+            b64 = base64.b64encode(towrite.read()).decode()  # some strings
+            linko = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64}" download="myfilename.xlsx">Download excel file</a>'
+            st.markdown(linko, unsafe_allow_html=True)
     elif select_box_choice == 'certain employee':
         clm1, clm2, clm3, clm4 = st.columns(4)
         ID = clm1.text_input('enter employee ID:')
