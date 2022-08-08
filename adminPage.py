@@ -81,7 +81,7 @@ if radio_selection == 'print reports':
         date_to = clm2.date_input('to')
         download_button = clm1.button('download report')
         if download_button:
-            rows = run_query(f'SELECT * FROM "{sheet_url}" where date >= ? AND date <= ?', date_from, date_to)
+            rows = run_query(f'SELECT * FROM "{sheet_url}" where date >= "{date_from}" AND date <= "{date_to}"')
             with open('report '+str(date_from)+' '+str(date_to)+'.csv', 'a') as f:
                 # using csv.writer method from CSV package
                 dw = csv.DictWriter(f, delimiter=',',
