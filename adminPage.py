@@ -5,24 +5,30 @@ import streamlit as st
 import base64
 import datetime
 
-def init_connection():
-    return pyodbc.connect(
-        "DRIVER={ODBC Driver 17 for SQL Server};SERVER="
-        + st.secrets["server"]
-        + ";DATABASE="
-        + st.secrets["database"]
-        + ";UID="
-        + st.secrets["username"]
-        + ";PWD="
-        + st.secrets["password"]
-    )
+# streamlit_app.py
 
+import streamlit as st
+from google.oauth2 import service_account
+from gsheetsdb import connect
 
-@st.experimental_memo(ttl=600)
+# Create a connection object.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+    ],
+)
+conn = connect(credentials=credentials)
+
+# Perform SQL query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+@st.cache(ttl=600)
 def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+    rows = conn.execute(query, headers=1)
+    rows = rows.fetchall()
+    return rows
+
+sheet_url = st.secrets["private_gsheets_url"]
 
 
 def type_to_csv(array):
@@ -75,10 +81,7 @@ if radio_selection == 'print reports':
         date_to = clm2.date_input('to')
         download_button = clm1.button('download report')
         if download_button:
-            conn = init_connection()
-            cur = conn.cursor()
-            result = cur.execute('select * from attendance where date >= ? AND date <= ?', date_from, date_to)
-            rows = result.fetchall()
+            rows = run_query(f'SELECT * FROM "{sheet_url}" where date >= ? AND date <= ?', date_from, date_to)
             with open('report '+str(date_from)+' '+str(date_to)+'.csv', 'a') as f:
                 # using csv.writer method from CSV package
                 dw = csv.DictWriter(f, delimiter=',',
