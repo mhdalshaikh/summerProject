@@ -72,7 +72,7 @@ if radio_selection == 'print reports':
         download_button = clm1.button('download report')
         if download_button:
             sheet_url = st.secrets["private_gsheets_url"]
-            rows = run_query(f'SELECT * FROM "{sheet_url}" where date >= "{date_from}" AND date <= "{date_to}"')
+            rows = run_query(f'SELECT * FROM "{sheet_url}"')
             with open('report '+str(date_from)+' '+str(date_to)+'.csv', 'a') as f:
                 # using csv.writer method from CSV package
                 dw = csv.DictWriter(f, delimiter=',',
