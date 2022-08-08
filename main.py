@@ -320,9 +320,6 @@ elif selection == 'Reporting late':
         array[28] = mysum
         finish = True
 if finish is True:  # if save/exit button was pressed the code comes here
-
-    conn = init_connection()
-    cur = conn.cursor()
     dates = str(f"{datetime.now():%Y-%m-%d}")
     run_query(
         f'INSERT into"{sheet_url}" (ID,name,date,customer1_visit,customer1_name,customer1_country,customer1_location,"'
@@ -335,6 +332,5 @@ if finish is True:  # if save/exit button was pressed the code comes here
      array[10], array[11], array[12], array[13], array[14], array[15],
      array[16], array[17], array[18], array[19], array[20], array[21],
      array[22], array[23], array[24], array[25], array[26], array[27], array[28]))
-    cur.commit()
     st.success('response saved, you can now exit the form')
     st.stop()
