@@ -322,12 +322,7 @@ elif selection == 'Reporting late':
 if finish is True:  # if save/exit button was pressed the code comes here
     dates = str(f"{datetime.now():%Y-%m-%d}")
     run_query(
-        f'INSERT into"{sheet_url}" (ID,name,date,customer1_visit,customer1_name,customer1_country,customer1_location,"'
-    "customer2_visit,customer2_name,customer2_country,customer2_location,customer3_visit,"
-    "customer3_name,customer3_country,customer3_location,hospital_visit,hospital_location,"
-    "vendor1_visit,vendor1_name,vendor2_visit,vendor2_name,business_trip_country,trip_location,"
-    "date_of_trip,date_of_return,personal_excuse,reporting_late) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
-    "?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        f'INSERT into"{sheet_url}"'
     ('118', 'Khalil', dates, array[5], array[6], array[7], array[8], array[9],
      array[10], array[11], array[12], array[13], array[14], array[15],
      array[16], array[17], array[18], array[19], array[20], array[21],
