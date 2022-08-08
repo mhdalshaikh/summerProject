@@ -85,7 +85,8 @@ if radio_selection == 'print reports':
         date_to = clm2.date_input('to')
         sheet_url = st.secrets["private_gsheets_url"]
         rows = run_query(f'SELECT * FROM "{sheet_url}"')
-        download_button=clm1.download_button('Download CSV', data=rows,file_name='report '+str(date_from)+' '+str(date_to)+'.csv')
+        rows.fetchall()
+        download_button=clm1.download_button('Download CSV', data=rows[0],file_name='report '+str(date_from)+' '+str(date_to)+'.csv')
     elif select_box_choice == 'certain employee':
         clm1, clm2, clm3, clm4 = st.columns(4)
         ID = clm1.text_input('enter employee ID:')
