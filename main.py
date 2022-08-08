@@ -66,7 +66,6 @@ def insert_business_trip(country, location, date_from, date_to):
 
 
 # this function is called to initialize the responses array and @st.cache insures its called only once
-@st.cache(allow_output_mutation=True,ttl=120)
 def initialize_array(reset):
     array = ['-'] * 29
     array[0] = ""
